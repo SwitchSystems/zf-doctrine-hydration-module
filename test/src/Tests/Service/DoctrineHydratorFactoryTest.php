@@ -122,7 +122,7 @@ class DoctrineHydratorFactoryTest extends TestCase
      */
     public function it_should_know_which_services_it_can_create()
     {
-        // $this->stubObjectManager('Doctrine\Common\Persistence\ObjectManager');
+        // $this->stubObjectManager('Doctrine\Persistence\ObjectManager');
         $factory = new DoctrineHydratorFactory();
 
         $result = $factory->canCreateServiceWithName($this->hydratorManager, 'customhydrator', 'custom-hydrator');
