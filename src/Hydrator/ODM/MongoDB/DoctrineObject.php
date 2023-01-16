@@ -3,8 +3,8 @@
 namespace Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB;
 
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as BaseHydrator;
-use DoctrineModule\Stdlib\Hydrator\Strategy as DoctrineStrategy;
+use Doctrine\Laminas\Hydrator\DoctrineObject as BaseHydrator;
+use Doctrine\Laminas\Hydrator\Strategy\AbstractCollectionStrategy;
 use InvalidArgumentException;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy\AbstractMongoStrategy;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB\Strategy\DateTimeField;
@@ -19,7 +19,7 @@ class DoctrineObject extends BaseHydrator
      *
      * @throws InvalidArgumentException
      */
-    protected function prepareStrategies()
+    protected function prepareStrategies() : void
     {
         $this->prepareFieldStrategies();
         $this->prepareAssociationStrategies();
@@ -104,7 +104,7 @@ class DoctrineObject extends BaseHydrator
      */
     protected function injectAssociationStrategyDependencies($strategy, $association)
     {
-        if ($strategy instanceof DoctrineStrategy\AbstractCollectionStrategy) {
+        if ($strategy instanceof AbstractCollectionStrategy) {
             $strategy->setCollectionName($association);
             $strategy->setClassMetadata($this->metadata);
         }
@@ -122,7 +122,7 @@ class DoctrineObject extends BaseHydrator
      * @param string $target
      * @param mixed  $values
      */
-    protected function toMany($object, $collectionName, $target, $values)
+    protected function toMany($object, $collectionName, $target, $values) : void
     {
         if ($this->hasStrategy($collectionName)) {
             $strategy = $this->getStrategy($collectionName);
