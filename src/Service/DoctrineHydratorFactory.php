@@ -7,7 +7,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use Doctrine\Laminas\Hydrator;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Phpro\DoctrineHydrationModule\Hydrator\DoctrineHydrator;
 use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB;
 use Laminas\Hydrator\AbstractHydrator;
@@ -19,7 +19,7 @@ use Laminas\Hydrator\NamingStrategy\NamingStrategyInterface;
 use Laminas\Hydrator\NamingStrategyEnabledInterface;
 use Laminas\Hydrator\Strategy\StrategyInterface;
 use Laminas\Hydrator\StrategyEnabledInterface;
-use Laminas\ServiceManager\AbstractFactoryInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\ServiceLocatorInterface;
@@ -98,24 +98,6 @@ class DoctrineHydratorFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Determine if we can create a service with name. (v2)
-     *
-     * Provided for backwards compatiblity; proxies to canCreate().
-     *
-     * @param ServiceLocatorInterface $hydratorManager
-     * @param string                  $name
-     * @param string                  $requestedName
-     *
-     * @return bool
-     *
-     * @throws ServiceNotFoundException
-     */
-    public function canCreateServiceWithName(ServiceLocatorInterface $hydratorManager, $name, $requestedName)
-    {
-        return $this->canCreate($hydratorManager->getServiceLocator(), $requestedName);
-    }
-
-    /**
      * Create and return the database-connected resource.
      *
      * @param ContainerInterface $container
@@ -124,7 +106,7 @@ class DoctrineHydratorFactory implements AbstractFactoryInterface
      *
      * @return DoctrineHydrator
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $container->get('config');
         $config = $config[self::FACTORY_NAMESPACE][$requestedName];
@@ -162,22 +144,6 @@ class DoctrineHydratorFactory implements AbstractFactoryInterface
         $this->configureHydrator($hydrateService, $container, $config, $objectManager);
 
         return new DoctrineHydrator($extractService, $hydrateService);
-    }
-
-    /**
-     * Create and return the database-connected resource (v2).
-     *
-     * Provided for backwards compatibility; proxies to __invoke().
-     *
-     * @param ServiceLocatorInterface $hydratorManager
-     * @param string                  $name
-     * @param string                  $requestedName
-     *
-     * @return DoctrineHydrator
-     */
-    public function createServiceWithName(ServiceLocatorInterface $hydratorManager, $name, $requestedName)
-    {
-        return $this($hydratorManager->getServiceLocator(), $requestedName);
     }
 
     /**
