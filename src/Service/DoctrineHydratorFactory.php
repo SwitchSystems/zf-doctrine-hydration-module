@@ -13,16 +13,15 @@ use Phpro\DoctrineHydrationModule\Hydrator\ODM\MongoDB;
 use Laminas\Hydrator\AbstractHydrator;
 use Laminas\Hydrator\Filter\FilterComposite;
 use Laminas\Hydrator\Filter\FilterInterface;
-use Laminas\Hydrator\FilterEnabledInterface;
+use Laminas\Hydrator\Filter\FilterEnabledInterface;
 use Laminas\Hydrator\HydratorInterface;
 use Laminas\Hydrator\NamingStrategy\NamingStrategyInterface;
-use Laminas\Hydrator\NamingStrategyEnabledInterface;
+use Laminas\Hydrator\NamingStrategy\NamingStrategyEnabledInterface;
 use Laminas\Hydrator\Strategy\StrategyInterface;
-use Laminas\Hydrator\StrategyEnabledInterface;
+use Laminas\Hydrator\Strategy\StrategyEnabledInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class DoctrineHydratorFactory.
